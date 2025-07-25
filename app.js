@@ -65,7 +65,13 @@ mongoose
   )
   .then((result) => {
     const server = app.listen(8080);
-    const io = require("socket.io")(server);
+    const io = require("socket.io")(server, {
+      cors: {
+        origin: "http://localhost:5173",
+        methods: ["GET", "POST"],
+        credentials: true,
+      },
+    });
     io.on("connection", (socket) => {
       console.log("Client connected");
     });
