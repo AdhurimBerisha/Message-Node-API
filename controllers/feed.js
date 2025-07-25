@@ -43,7 +43,6 @@ exports.createPost = async (req, res, next) => {
   const imageUrl = req.file.path.replace("\\", "/");
   const title = req.body.title;
   const content = req.body.content;
-  let creator;
   const post = new Post({
     title: title,
     content: content,
@@ -150,7 +149,7 @@ exports.deletePost = async (req, res, next) => {
     }
     clearImage(post.imageUrl);
     await Post.findByIdAndDelete(postId);
-    const user = User.findById(req.userId);
+    const user = await User.findById(req.userId);
     user.posts.pull(postId);
     await user.save();
     res.status(200).json({ message: "Deleted post" });
