@@ -12,6 +12,7 @@ exports.getPosts = async (req, res, next) => {
   try {
     const totalItems = await Post.find().countDocuments();
     const posts = await Post.find()
+      .populate("creator")
       .skip((currentPage - 1) * perPage)
       .limit(perPage);
     res.status(200).json({
@@ -57,7 +58,7 @@ exports.createPost = async (req, res, next) => {
     res.status(201).json({
       message: "Post created successfully!",
       post: post,
-      creator: { _id: user._id, name: ser.name },
+      creator: { _id: user._id, name: user.name },
     });
   } catch (err) {
     if (!err.statusCode) {
