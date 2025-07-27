@@ -1,3 +1,5 @@
+require("dotenv").config();
+
 const path = require("path");
 
 const express = require("express");
@@ -99,9 +101,7 @@ app.use((error, req, res, next) => {
 });
 
 mongoose
-  .connect(
-    "mongodb+srv://ab:ab@messages.eylhovh.mongodb.net/?retryWrites=true&w=majority&appName=messages"
-  )
+  .connect(process.env.MONGODB_URI)
   .then((result) => {
     const server = app.listen(8080);
   })

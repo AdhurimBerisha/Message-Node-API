@@ -1,6 +1,7 @@
 const bcrypt = require("bcryptjs");
 const validator = require("validator");
 const jwt = require("jsonwebtoken");
+require("dotenv").config();
 const User = require("../models/user");
 const Post = require("../models/post");
 const { clearImage } = require("../util/file");
@@ -56,7 +57,7 @@ module.exports = {
         userId: user._id.toString(),
         email: user.email,
       },
-      "somesupersecretsecret",
+      process.env.JWT_SECRET,
       { expiresIn: "1h" }
     );
     return { token: token, userId: user._id.toString() };
